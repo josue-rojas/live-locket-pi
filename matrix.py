@@ -62,30 +62,30 @@ matrix = RGBMatrix(options=options)
 image.thumbnail((matrix.width, matrix.height), Image.ANTIALIAS)
 matrix.SetImage(image.convert('RGB'))
 
-# # try:
-# #     print("Press CTRL-C to stop.")
-# #     while True:
-# #         try:
-# #             now = datetime.now()
-# #             current_time = now.strftime("%H:%M:%S")
-# #             print("Current Time =", current_time)
-# #             # request data location and settings
-# #             response = requests.get('https://live-locket.netlify.app/.netlify/functions/getSettings', timeout=10, verify=False)
-# #             responseOptions = response.json()
-# #             imageSrc = responseOptions['imageSrc']
-# #             # request  image
-# #             print('downloading....')
-# #             print(imageSrc)
-# #             imageReq = requests.get(imageSrc)
-# #             #
-# #             _image = Image.open(BytesIO(imageReq.content))
-# #             _image.thumbnail((matrix.width, matrix.height), Image.ANTIALIAS)
-# #             matrix.SetImage(_image.convert('RGB'))
-# #             print('setting image')
-# #         except Exception as e:
-# #             print(e)
-# #             print('errrorr')
-# #             matrix.SetImage(image.convert('RGB'))
-# #         time.sleep(1800)
-# # except KeyboardInterrupt:
-# #     sys.exit(0)
+try:
+    print("Press CTRL-C to stop.")
+    while True:
+        try:
+            # now = datetime.now()
+            # current_time = now.strftime("%H:%M:%S")
+            # print("Current Time =", current_time)
+            # request data location and settings
+            # response = requests.get('https://live-locket.netlify.app/.netlify/functions/getSettings', timeout=10, verify=False)
+            # responseOptions = response.json()
+            # imageSrc = responseOptions['imageSrc']
+            # request  image
+            # print('downloading....')
+            # print(imageSrc)
+            # imageReq = requests.get(imageSrc)
+            #
+            # _image = Image.open(BytesIO(imageReq.content))
+            # _image.thumbnail((matrix.width, matrix.height), Image.ANTIALIAS)
+            matrix.SetImage(image.convert('RGB'))
+            print('setting image')
+        except Exception as e:
+            print(e)
+            print('errrorr')
+            matrix.SetImage(image.convert('RGB'))
+        time.sleep(1800)
+except KeyboardInterrupt:
+    sys.exit(0)
