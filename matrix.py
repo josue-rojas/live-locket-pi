@@ -37,9 +37,9 @@ dir = os.path.dirname(__file__)
 filename = os.path.join(dir, CONFIG_SRC)
 config = configparser.ConfigParser()
 config.read(filename)
-image_file = os.path.join(dir, IMAGES_DIR, './example.png')
+image_file = os.path.join(dir, IMAGES_DIR, getStartImage()[3])
 
-print(os.path.join(dir, IMAGES_DIR, './example.png'))
+print(os.path.join(dir, IMAGES_DIR, getStartImage()[3]))
 print(getStartImage()[3])
 
 options = RGBMatrixOptions()
