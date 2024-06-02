@@ -1,10 +1,6 @@
 #!/usr/bin/env python3
 import sqlite3
-con = sqlite3.connect("images.db")
-cur = con.cursor()
 
-res = cur.execute("SELECT * FROM images")
-res.fetchall()
 
 # import time
 # import sys
@@ -17,6 +13,15 @@ res.fetchall()
 # # from datetime import datetime
 # # import configparser
 
+IMAGES_DB = "images.db"
+
+def getImages(): 
+  con = sqlite3.connect(IMAGES_DB)
+  cur = con.cursor()
+  res = cur.execute("SELECT * FROM images")
+  return res.fetchall()
+
+print(getImages())
 
 
 # # # default image
