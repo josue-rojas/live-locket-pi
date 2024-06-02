@@ -51,10 +51,11 @@ dir = os.path.dirname(__file__)
 filename = os.path.join(dir, CONFIG_SRC)
 config = configparser.ConfigParser()
 config.read(filename)
-image_file = os.path.join(dir, IMAGES_DIR, getRandomImage()[3])
+startImage = getRandomImage()[3]
+image_file = os.path.join(dir, IMAGES_DIR, startImage)
 
-print(os.path.join(dir, IMAGES_DIR, getRandomImage()[3]))
-print(getRandomImage()[3])
+print(startImage)
+# print(getRandomImage()[3])
 
 options = RGBMatrixOptions()
 options.hardware_mapping = 'adafruit-hat' 
