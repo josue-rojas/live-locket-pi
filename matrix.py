@@ -1,19 +1,20 @@
 #!/usr/bin/env python3
 import sqlite3
-
-
-# import time
-# import sys
+import time
+import sys
 # import requests
-# from io import BytesIO
-# import sys,os
+from io import BytesIO
+import sys,os
 
-# # from rgbmatrix import RGBMatrix, RGBMatrixOptions
-# # from PIL import Image
-# # from datetime import datetime
-# # import configparser
+# from rgbmatrix import RGBMatrix, RGBMatrixOptions
+# from PIL import Image
+from datetime import datetime
+import configparser
 
 IMAGES_DB = "images.db"
+IMAGES_DIR = "./images"
+
+CONFIG_SRC = './config/rgb_options.ini'
 
 def getImages(): 
   con = sqlite3.connect(IMAGES_DB)
@@ -23,14 +24,23 @@ def getImages():
 
 print(getImages())
 
+def getStartImage():
+    con = sqlite3.connect(IMAGES_DB)
+    cur = con.cursor()
+    res = cur.execute("SELECT * FROM images where ID = 0")
 
-# # # default image
-# dir = os.path.dirname(__file__)
-# filename = os.path.join(dir, './config/rgb_options.ini')
-# config = configparser.ConfigParser()
-# config.read(filename)
-# # image_file = os.path.join(dir, './default.png')
+    return res.fetchone()
 
+
+# # default image
+dir = os.path.dirname(__file__)
+filename = os.path.join(dir, CONFIG_SRC)
+config = configparser.ConfigParser()
+config.read(filename)
+image_file = os.path.join(dir, IMAGES_DIR, './example.png')
+
+print(os.path.join(dir, IMAGES_DIR, './example.png'))
+print(getStartImage()[3])
 
 # options = RGBMatrixOptions()
 # options.hardware_mapping = 'adafruit-hat' 
