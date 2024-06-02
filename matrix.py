@@ -16,20 +16,34 @@ IMAGES_DIR = "./images"
 
 CONFIG_SRC = './config/rgb_options.ini'
 
-def getImages(): 
+images = []
+
+# def getImages(): 
+#   if len(images):
+#       return images
+#   con = sqlite3.connect(IMAGES_DB)
+#   cur = con.cursor()
+#   res = cur.execute("SELECT * FROM images")
+#   images = res.fetchall()
+
+#   return images
+
+def getRandomImage():
   con = sqlite3.connect(IMAGES_DB)
   cur = con.cursor()
-  res = cur.execute("SELECT * FROM images")
-  return res.fetchall()
+  res = cur.execute("SELECT * FROM images ORDER BY RANDOM() LIMIT 1;")
+  
+  return res.fetchone()
 
-print(getImages())
 
-def getStartImage():
-    con = sqlite3.connect(IMAGES_DB)
-    cur = con.cursor()
-    res = cur.execute("SELECT * FROM images where ID = 0")
+# print(getImages())
 
-    return res.fetchone()
+# def getStartImage():
+#     con = sqlite3.connect(IMAGES_DB)
+#     cur = con.cursor()
+#     res = cur.execute("SELECT * FROM images where ID = 0")
+
+#     return res.fetchone()
 
 
 # # default image
@@ -37,10 +51,10 @@ dir = os.path.dirname(__file__)
 filename = os.path.join(dir, CONFIG_SRC)
 config = configparser.ConfigParser()
 config.read(filename)
-image_file = os.path.join(dir, IMAGES_DIR, getStartImage()[3])
+image_file = os.path.join(dir, IMAGES_DIR, getRandomImage()[3])
 
-print(os.path.join(dir, IMAGES_DIR, getStartImage()[3]))
-print(getStartImage()[3])
+print(os.path.join(dir, IMAGES_DIR, getRandomImage()[3]))
+print(getRandomImage()[3])
 
 options = RGBMatrixOptions()
 options.hardware_mapping = 'adafruit-hat' 
