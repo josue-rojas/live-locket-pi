@@ -27,6 +27,7 @@ echo "Creating matrix service:"
 sudo chmod +x "${install_path}/matrix.py"
 sudo cp ./config/matrix.service /etc/systemd/system/
 sudo sed -i -e "/\[Service\]/a ExecStart=${install_path}/matrix.py" /etc/systemd/system/matrix.service
+sudo sed -i -e "/\[Service\]/a WorkingDirectory=${install_path}/" /etc/systemd/system/matrix.service
 
 # Create service.d directory if it doesn't exist
 sudo mkdir -p /etc/systemd/system/matrix.service.d
