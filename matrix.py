@@ -11,10 +11,7 @@ from imageRepository import getRandomImage
 
 IMAGES_DB = "images.db"
 IMAGES_DIR = "./images"
-
 CONFIG_SRC = './config/rgb_options.ini'
-
-images = []
 
 def getNextRandomFile(currentFile):
     nextFile = currentFile
@@ -24,11 +21,11 @@ def getNextRandomFile(currentFile):
     return nextFile
 
 
-# # default image
 dir = os.path.dirname(__file__)
-filename = os.path.join(dir, CONFIG_SRC)
+
+configFileName = os.path.join(dir, CONFIG_SRC)
 config = configparser.ConfigParser()
-config.read(filename)
+config.read(configFileName)
 startImage = getRandomImage()[3]
 image_file = os.path.join(dir, IMAGES_DIR, startImage)
 
