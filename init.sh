@@ -23,12 +23,14 @@ sudo systemctl daemon-reload
 echo "...done"
 
 echo "Creating matrix service:"
+# Ensure the script is executable
+sudo chmod +x "${install_path}/matrix.py"
 sudo cp ./config/matrix.service /etc/systemd/system/
 sudo sed -i -e "/\[Service\]/a ExecStart=${install_path}/matrix.py" /etc/systemd/system/matrix.service
 
 # Create service.d directory if it doesn't exist
 sudo mkdir -p /etc/systemd/system/matrix.service.d
-matrix_env_path=/etc/systemd/system/matrix.service.d/matrix.conf
+matrix_env_path=/etc/systemd/system/matrix.service.d/matrix_env.conf
 sudo touch $matrix_env_path
 echo "[Service]" | sudo tee $matrix_env_path
 sudo systemctl daemon-reload
