@@ -94,7 +94,7 @@ try:
             nextImage = Image.open(currentImageFilePath)
 
             nextImage.thumbnail((matrix.width, matrix.height), Image.ANTIALIAS)
-            matrix.SetImage(image.convert('RGB'))
+            matrix.SetImage(nextImage.convert('RGB'))
             print('setting image', currentFile)
         except Exception as e:
             print(e)
