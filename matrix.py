@@ -44,6 +44,13 @@ def getRandomImage():
 
 #     return res.fetchone()
 
+def getNextRandomFile(currentFile):
+    nextFile = currentFile
+    while currentFile == nextFile:
+        nextFile = getRandomImage()[3]
+
+    return nextFile
+
 
 # # default image
 dir = os.path.dirname(__file__)
@@ -52,9 +59,6 @@ config = configparser.ConfigParser()
 config.read(filename)
 startImage = getRandomImage()[3]
 image_file = os.path.join(dir, IMAGES_DIR, startImage)
-
-print(startImage)
-
 
 options = RGBMatrixOptions()
 options.hardware_mapping = 'adafruit-hat' 
@@ -68,8 +72,6 @@ options.brightness = int(config['DEFAULT']['brightness'])
 options.limit_refresh_rate_hz = int(config['DEFAULT']['refresh_rate'])
 
 image_timer = int(config['DEFAULT']['image_timer'])
-
-
 image = Image.open(image_file)
 
 matrix = RGBMatrix(options=options)
@@ -80,24 +82,20 @@ matrix.SetImage(image.convert('RGB'))
 
 try:
     print("Press CTRL-C to stop.")
+    currentFile = startImage
     while True:
         try:
-            # now = datetime.now()
-            # current_time = now.strftime("%H:%M:%S")
-            # print("Current Time =", current_time)
-            # request data location and settings
-            # response = requests.get('https://live-locket.netlify.app/.netlify/functions/getSettings', timeout=10, verify=False)
-            # responseOptions = response.json()
-            # imageSrc = responseOptions['imageSrc']
-            # request  image
-            # print('downloading....')
-            # print(imageSrc)
-            # imageReq = requests.get(imageSrc)
-            #
-            # _image = Image.open(BytesIO(imageReq.content))
-            # _image.thumbnail((matrix.width, matrix.height), Image.ANTIALIAS)
+            now = datetime.now()
+            current_time = now.strftime("%H:%M:%S")
+            print("Current Time =", current_time)
+
+            currentFile = getNextRandomFile(currentFile)
+            currentImageFilePath = os.path.join(dir, IMAGES_DIR, startImage)
+            nextImage = Image.open(currentImageFilePath)
+
+            nextImage.thumbnail((matrix.width, matrix.height), Image.ANTIALIAS)
             matrix.SetImage(image.convert('RGB'))
-            print('setting image')
+            print('setting image', currentFile)
         except Exception as e:
             print(e)
             print('errrorr')
