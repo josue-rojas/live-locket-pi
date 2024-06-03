@@ -66,6 +66,7 @@ try:
             matrix.SetImage(nextImage.convert('RGB'))
             print('setting image', currentFile)
         except Exception as e:
+            print("Error----")
             print(e)
             matrix.SetImage(image.convert('RGB'))
         time.sleep(image_timer)

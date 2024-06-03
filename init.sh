@@ -17,19 +17,21 @@ install_path=$(pwd)
 # --- Matrix service setup
 echo "Removing matrix service if it exists:"
 sudo systemctl stop matrix
+sudo systemctl disable matrix
 sudo rm -rf /etc/systemd/system/matrix.*
 sudo systemctl daemon-reload
 echo "...done"
 
 echo "Creating matrix service:"
 sudo cp ./config/matrix.service /etc/systemd/system/
-sudo sed -i -e "/\[Service\]/a ExecStart=${install_path}/matrix.py &" /etc/systemd/system/matrix.service
-sudo mkdir /etc/systemd/system/matrix.service.d
+sudo sed -i -e "/\[Service\]/a ExecStart=${install_path}/matrix.py" /etc/systemd/system/matrix.service
+
+# Create service.d directory if it doesn't exist
+sudo mkdir -p /etc/systemd/system/matrix.service.d
 matrix_env_path=/etc/systemd/system/matrix.service.d/matrix.conf
 sudo touch $matrix_env_path
-sudo echo "[Service]" >> $matrix_env_path
+echo "[Service]" | sudo tee $matrix_env_path
 sudo systemctl daemon-reload
 sudo systemctl start matrix
 sudo systemctl enable matrix
 echo "...done"
-
