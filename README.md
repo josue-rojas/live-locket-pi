@@ -14,3 +14,5 @@ On raspberry pi we are using
 - sqlite
 - python3
 
+
+Inspired by https://github.com/ryanwa18/spotipi/
