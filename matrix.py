@@ -90,7 +90,7 @@ try:
             print("Current Time =", current_time)
 
             currentFile = getNextRandomFile(currentFile)
-            currentImageFilePath = os.path.join(dir, IMAGES_DIR, startImage)
+            currentImageFilePath = os.path.join(dir, IMAGES_DIR, currentFile)
             nextImage = Image.open(currentImageFilePath)
 
             nextImage.thumbnail((matrix.width, matrix.height), Image.ANTIALIAS)
