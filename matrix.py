@@ -36,7 +36,6 @@ def getRandomImage():
   return res.fetchone()
 
 
-# print(getImages())
 
 # def getStartImage():
 #     con = sqlite3.connect(IMAGES_DB)
@@ -55,7 +54,7 @@ startImage = getRandomImage()[3]
 image_file = os.path.join(dir, IMAGES_DIR, startImage)
 
 print(startImage)
-# print(getRandomImage()[3])
+
 
 options = RGBMatrixOptions()
 options.hardware_mapping = 'adafruit-hat' 
@@ -67,6 +66,8 @@ options.hardware_mapping = config['DEFAULT']['hardware_mapping']
 options.gpio_slowdown = int(config['DEFAULT']['gpio_slowdown'])
 options.brightness = int(config['DEFAULT']['brightness'])
 options.limit_refresh_rate_hz = int(config['DEFAULT']['refresh_rate'])
+
+image_timer = int(config['DEFAULT']['image_timer'])
 
 
 image = Image.open(image_file)
@@ -101,6 +102,6 @@ try:
             print(e)
             print('errrorr')
             matrix.SetImage(image.convert('RGB'))
-        time.sleep(1800)
+        time.sleep(image_timer)
 except KeyboardInterrupt:
     sys.exit(0)
