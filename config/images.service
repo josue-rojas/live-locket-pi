@@ -1,0 +1,14 @@
+[Unit]
+Description=Images Service
+
+[Service]
+StandardOutput=syslog
+StandardError=syslog
+SyslogIdentifier=imageService
+LimitRTPRIO=99
+Restart=always
+RestartSec=3
+EnvironmentFile=/etc/systemd/system/images.service.d/images_env.conf
+
+[Install]
+WantedBy=multi-user.target
