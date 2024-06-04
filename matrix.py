@@ -8,10 +8,7 @@ from PIL import Image
 from datetime import datetime
 import configparser
 from imageRepository import getRandomImage
-
-IMAGES_DB = "images.db"
-IMAGES_DIR = "./images"
-CONFIG_SRC = './config/rgb_options.ini'
+from constants import IMAGES_DIR, CONFIG_SRC
 
 def getNextRandomFile(currentFile):
     nextFile = currentFile
@@ -19,7 +16,6 @@ def getNextRandomFile(currentFile):
         nextFile = getRandomImage()[3]
 
     return nextFile
-
 
 dir = os.path.dirname(__file__)
 
@@ -52,6 +48,7 @@ matrix.SetImage(image.convert('RGB'))
 try:
     print("Press CTRL-C to stop.")
     currentFile = startImage
+
     while True:
         try:
             now = datetime.now()
