@@ -7,13 +7,13 @@ from rgbmatrix import RGBMatrix, RGBMatrixOptions
 from PIL import Image
 from datetime import datetime
 import configparser
-from imageRepository import getRandomImage
+from imageRepository import get_random_image
 from constants import IMAGES_DIR, CONFIG_SRC
 
 def getNextRandomFile(currentFile):
     nextFile = currentFile
     while currentFile == nextFile:
-        nextFile = getRandomImage()[3]
+        nextFile = get_random_image()[3]
 
     return nextFile
 
@@ -22,7 +22,7 @@ dir = os.path.dirname(__file__)
 configFileName = os.path.join(dir, CONFIG_SRC)
 config = configparser.ConfigParser()
 config.read(configFileName)
-startImage = getRandomImage()[3]
+startImage = get_random_image()[3]
 image_file = os.path.join(dir, IMAGES_DIR, startImage)
 
 options = RGBMatrixOptions()

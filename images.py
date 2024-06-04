@@ -5,7 +5,7 @@ import configparser
 import sys,os
 import requests
 from constants import CONFIG_SRC, DELETE_IMAGE_BY_ID, GET_ALL_IMAGES_API, IMAGES_API_KEY, IMAGES_BUCKET_BASE, IMAGES_DIR
-from imageRepository import insetImage
+from imageRepository import insert_image
 
 
 CONFIG_SRC = './config/rgb_options.ini'
@@ -42,7 +42,7 @@ try:
           image_insert_data = (image_id, image['uploaded_date'], image['uploaded_by'], image_name, image['storage_id'], image['bucket_location'])
 
           print('saving image ' + image_name)
-          print('Inserting ID: ', insetImage(image_insert_data))
+          print('Inserting ID: ', insert_image(image_insert_data))
 
           # save the image to our images directory
           img_data = requests.get(image_url).content
