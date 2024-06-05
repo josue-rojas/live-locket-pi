@@ -7,6 +7,8 @@ LimitRTPRIO=99
 Restart=always
 RestartSec=3
 EnvironmentFile=/etc/systemd/system/images.service.d/images_env.conf
+StandardOutput=journal
+StandardError=journal
 
 [Install]
 WantedBy=multi-user.target

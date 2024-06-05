@@ -4,7 +4,6 @@ import sys
 import os
 from rgbmatrix import RGBMatrix, RGBMatrixOptions
 from PIL import Image
-from datetime import datetime
 import configparser
 from imageRepository import get_random_image
 from constants import IMAGES_DIR, CONFIG_SRC
@@ -66,6 +65,4 @@ def main():
     except KeyboardInterrupt:
         sys.exit(0)
 
-if __name__ == "__main__":
-    main()
-else: main()
+main()
