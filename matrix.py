@@ -44,6 +44,7 @@ def main():
     image_timer = int(config['DEFAULT']['image_timer'])
     matrix = configure_matrix(config)
     dir = os.path.dirname(__file__)
+    print(dir)
 
     startImage = get_random_image()[3]
     currentFile = startImage

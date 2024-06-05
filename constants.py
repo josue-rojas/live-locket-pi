@@ -1,6 +1,8 @@
+import os
+
 IMAGES_DIR = "./images"
 CONFIG_SRC = './config/rgb_options.ini'
-IMAGES_DB = 'images.db'
+IMAGES_DB =  os.path.join(os.path.dirname(__file__), 'images.db')
 
 BASE_IMAGES_API = 'https://rphgcdgdqylokpeygnyy.supabase.co/functions/v1/'
 GET_ALL_IMAGES_API = BASE_IMAGES_API + 'image-all'
