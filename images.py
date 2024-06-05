@@ -39,10 +39,10 @@ try:
           image_name = os.path.basename(image_bucket_location)
           image_url = IMAGES_BUCKET_BASE + '/' + image_bucket_location
           image_id = image['id']
-          image_insert_data = (image_id, image['uploaded_date'], image['uploaded_by'], image_name, image['storage_id'], image['bucket_location'])
+          # image_insert_data = (image_id, image['uploaded_date'], image['uploaded_by'], image_name, image['storage_id'], image['bucket_location'])
 
           print('saving image ' + image_name)
-          print('Inserting ID: ', insert_image(image_insert_data))
+          print('Inserting ID: ', insert_image(image, image_name))
 
           # save the image to our images directory
           img_data = requests.get(image_url).content
