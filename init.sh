@@ -26,7 +26,7 @@ echo "Creating matrix service:"
 # Ensure the script is executable
 sudo chmod +x "${install_path}/matrix.py"
 sudo cp ./config/matrix.service /etc/systemd/system/
-sudo sed -i -e "/\[Service\]/a ExecStart=${install_path}/matrix.py" /etc/systemd/system/matrix.service
+sudo sed -i -e "/\[Service\]/a ExecStart=/usr/bin/python3 ${install_path}/matrix.py" /etc/systemd/system/matrix.service
 sudo sed -i -e "/\[Service\]/a WorkingDirectory=${install_path}/" /etc/systemd/system/matrix.service
 
 # Create service.d directory if it doesn't exist
@@ -52,7 +52,7 @@ echo "Creating  images service:"
 # Ensure the script is executable
 sudo chmod +x "${install_path}/images.py"
 sudo cp ./config/images.service /etc/systemd/system/
-sudo sed -i -e "/\[Service\]/a ExecStart=${install_path}/images.py" /etc/systemd/system/images.service
+sudo sed -i -e "/\[Service\]/a ExecStart=/usr/bin/python3 ${install_path}/images.py" /etc/systemd/system/images.service
 sudo sed -i -e "/\[Service\]/a WorkingDirectory=${install_path}/" /etc/systemd/system/images.service
 
 # Create service.d directory if it doesn't exist

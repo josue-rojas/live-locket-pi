@@ -2,8 +2,6 @@
 Description=Images Service
 
 [Service]
-StandardOutput=syslog
-StandardError=syslog
 SyslogIdentifier=imageService
 LimitRTPRIO=99
 Restart=always
