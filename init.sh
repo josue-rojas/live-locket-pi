@@ -24,7 +24,6 @@ echo "...done"
 
 echo "Creating matrix service:"
 # Ensure the script is executable
-sudo chmod +x "${install_path}/matrix.py"
 sudo cp ./config/matrix.service /etc/systemd/system/
 sudo sed -i -e "/\[Service\]/a ExecStart=${install_path}/matrix.py" /etc/systemd/system/matrix.service
 sudo sed -i -e "/\[Service\]/a WorkingDirectory=${install_path}/" /etc/systemd/system/matrix.service
