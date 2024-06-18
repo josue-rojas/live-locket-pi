@@ -49,7 +49,7 @@ def main():
     # Display the initial image
     image_timer = config['DEFAULT'].getint('image_timer', 5)
     image = Image.open(image_file_path)
-    image.thumbnail((matrix.width, matrix.height), Image.ANTIALIAS)
+    image.thumbnail((matrix.width, matrix.height), Image.Resampling.LANCZOS)
     matrix.SetImage(image.convert('RGB'))
 
     try:
@@ -66,7 +66,7 @@ def main():
                 current_image_file_path = os.path.join(dir, IMAGES_DIR, current_file)
                 next_image = Image.open(current_image_file_path)
 
-                next_image.thumbnail((matrix.width, matrix.height), Image.ANTIALIAS)
+                next_image.thumbnail((matrix.width, matrix.height), Image.Resampling.LANCZOS)
                 matrix.SetImage(next_image.convert('RGB'))
                 print('Setting image:', current_file)
             except Exception as e:
