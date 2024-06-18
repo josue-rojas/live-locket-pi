@@ -1,71 +1,81 @@
 #!/usr/bin/env python3
-import time
+
+import os
 import sys
-import sys,os
+import time
+from datetime import datetime
+from configparser import ConfigParser
 
 from rgbmatrix import RGBMatrix, RGBMatrixOptions
 from PIL import Image
-from datetime import datetime
-import configparser
+
 from imageRepository import get_random_image
 from constants import IMAGES_DIR, CONFIG_SRC
 
-def getNextRandomFile(currentFile):
-    nextFile = currentFile
-    while currentFile == nextFile:
-        nextFile = get_random_image()[3]
+def get_next_random_file(current_file):
+    next_file = current_file
+    while current_file == next_file:
+        next_file = get_random_image()[3]
+    return next_file
 
-    return nextFile
+def configure_matrix(config):
+    options = RGBMatrixOptions()
+    options.hardware_mapping = config['DEFAULT'].get('hardware_mapping', 'adafruit-hat')
+    options.rows = config['DEFAULT'].getint('rows', 32)
+    options.cols = config['DEFAULT'].getint('columns', 32)
+    options.chain_length = config['DEFAULT'].getint('chain_length', 1)
+    options.parallel = config['DEFAULT'].getint('parallel', 1)
+    options.gpio_slowdown = config['DEFAULT'].getint('gpio_slowdown', 2)
+    options.brightness = config['DEFAULT'].getint('brightness', 100)
+    options.limit_refresh_rate_hz = config['DEFAULT'].getint('refresh_rate', 0)
+    return options
 
-dir = os.path.dirname(__file__)
+def main():
+    dir = os.path.dirname(__file__)
 
-configFileName = os.path.join(dir, CONFIG_SRC)
-config = configparser.ConfigParser()
-config.read(configFileName)
-startImage = get_random_image()[3]
-image_file = os.path.join(dir, IMAGES_DIR, startImage)
+    # Load configuration
+    config_file_path = os.path.join(dir, CONFIG_SRC)
+    config = ConfigParser()
+    config.read(config_file_path)
 
-options = RGBMatrixOptions()
-options.hardware_mapping = 'adafruit-hat' 
-options.rows = int(config['DEFAULT']['rows'])
-options.cols = int(config['DEFAULT']['columns'])
-options.chain_length = int(config['DEFAULT']['chain_length'])
-options.parallel = int(config['DEFAULT']['parallel'])
-options.hardware_mapping = config['DEFAULT']['hardware_mapping']
-options.gpio_slowdown = int(config['DEFAULT']['gpio_slowdown'])
-options.brightness = int(config['DEFAULT']['brightness'])
-options.limit_refresh_rate_hz = int(config['DEFAULT']['refresh_rate'])
+    # Initial image setup
+    start_image = get_random_image()[3]
+    image_file_path = os.path.join(dir, IMAGES_DIR, start_image)
+    
+    # Configure RGB matrix
+    options = configure_matrix(config)
+    matrix = RGBMatrix(options=options)
 
-image_timer = int(config['DEFAULT']['image_timer'])
-image = Image.open(image_file)
+    # Display the initial image
+    image_timer = config['DEFAULT'].getint('image_timer', 5)
+    image = Image.open(image_file_path)
+    image.thumbnail((matrix.width, matrix.height), Image.ANTIALIAS)
+    matrix.SetImage(image.convert('RGB'))
 
-matrix = RGBMatrix(options=options)
+    try:
+        print("Press CTRL-C to stop.")
+        current_file = start_image
 
-# Create a thumbnail that fits our screen
-image.thumbnail((matrix.width, matrix.height), Image.ANTIALIAS)
-matrix.SetImage(image.convert('RGB'))
+        while True:
+            try:
+                now = datetime.now()
+                current_time = now.strftime("%H:%M:%S")
+                print("Current Time =", current_time)
 
-try:
-    print("Press CTRL-C to stop.")
-    currentFile = startImage
+                current_file = get_next_random_file(current_file)
+                current_image_file_path = os.path.join(dir, IMAGES_DIR, current_file)
+                next_image = Image.open(current_image_file_path)
 
-    while True:
-        try:
-            now = datetime.now()
-            current_time = now.strftime("%H:%M:%S")
-            print("Current Time =", current_time)
+                next_image.thumbnail((matrix.width, matrix.height), Image.ANTIALIAS)
+                matrix.SetImage(next_image.convert('RGB'))
+                print('Setting image:', current_file)
+            except Exception as e:
+                print("Error setting image:", e)
+                matrix.SetImage(image.convert('RGB'))
 
-            currentFile = getNextRandomFile(currentFile)
-            currentImageFilePath = os.path.join(dir, IMAGES_DIR, currentFile)
-            nextImage = Image.open(currentImageFilePath)
+            time.sleep(image_timer)
+    except KeyboardInterrupt:
+        sys.exit(0)
 
-            nextImage.thumbnail((matrix.width, matrix.height), Image.ANTIALIAS)
-            matrix.SetImage(nextImage.convert('RGB'))
-            print('setting image', currentFile)
-        except Exception as e:
-            print("Error----")
-            print(e)
-            matrix.SetImage(image.convert('RGB'))
-        time.sleep(image_timer)
-except KeyboardInterrupt:
-    sys.exit(0)
+if __name__ == "__main__":
+    main()
